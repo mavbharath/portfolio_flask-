@@ -1,0 +1,21 @@
+replicaCount: 2
+name: web-app
+serviceAccountName: web-app-sa
+labels:
+  app: web-app
+  environment: dev
+selectorLabels:
+  app: web-app
+
+image:
+  name: ghcr.io/mavbharath/ 
+  tag: 0.0.1                     
+  pullPolicy: Always
+
+imagePullSecrets:
+  - name: ghcr-secret
+
+service:
+  type: NodePort
+  port: 8080
+  nodePort: 30088
