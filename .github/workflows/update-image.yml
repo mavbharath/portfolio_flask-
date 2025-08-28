@@ -1,0 +1,27 @@
+name: Update Image Tag
+
+on:
+  repository_dispatch:
+    types: update-image
+
+jobs:
+  update-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Update image tag
+        run: |
+          IMAGE_NAME="${{ github.event.client_payload.image }}"
+          IMAGE_TAG="${{ github.event.client_payload.tag }}"
+          yq e -i '.image.name = strenv(IMAGE_NAME)' values.yaml
+          yq e -i '.image.tag = strenv(IMAGE_TAG)' values.yaml
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add values.yaml
+          git commit -m "Update image tag to $IMAGE_TAG"
+          git push
