@@ -17,7 +17,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ mavbharath }}
-          password: ${{ xxxxxxxxx }}
+          password: ${{ xxxxx#Removing this after successful testing in local }}
 
       - name: Docker meta
         id: meta
